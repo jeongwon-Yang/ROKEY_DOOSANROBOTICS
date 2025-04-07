@@ -1,0 +1,7 @@
+numpy
+opencv-python
+gspread
+oauth2client
+pydrive2
+requests
+pyserial
