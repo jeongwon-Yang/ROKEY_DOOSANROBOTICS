@@ -14,11 +14,11 @@ Doosan 협동로봇 M0609를 활용하여 기본적인 무브J/L 제어부터
 03_협동로봇제어_응용실습/
 ├── basic/                        # 무브J/L 기반 Pick & Place, 기본 제어
 │   ├── force_pick_place.drl     # Force 기반 피킹 & 플레이스
-│   └── CollaborativeRobot2_E1_Sourcecode_backup.py
+│   └── m0609_assemble_gear.drl   # 3개 큰 기어 + 작은 기어 조립 자동화
 ├── advanced/                     # 응용 과제
 │   ├── height_based_sorting.py  # 블록 높이 기반 자동 정렬 시스템
 │   ├── jenga_digital_clock.py   # 실시간 디지털 젠가 시계 구현
-│   └── m0609_assemble_gear.drl  # 기어 자동 조립 시스템
+│   └── stacking_cup.py      # 컵 스태킹 Pick & Place 응용
 ├── config/
 │   └── 9815.json                 # Doosan 2FG 그리퍼 설정 JSON
 ```
