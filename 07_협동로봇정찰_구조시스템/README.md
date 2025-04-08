@@ -8,6 +8,7 @@ SLAM 기반 지도 생성부터 GUI 기반 구조 명령 실행까지 전체 로
 
 ## 📁 폴더 구조
 
+```
 07_협동로봇정찰_구조시스템/
 ├── 01_multi_robot_nav/           # 다중 로봇 내비게이션 설정
 │   └── multi_nav2_world.launch.py      # TurtleBot3 SLAM + Nav2 실행 런치 파일
@@ -15,6 +16,7 @@ SLAM 기반 지도 생성부터 GUI 기반 구조 명령 실행까지 전체 로
 ├── 02_integrated_system/         # 구조 로봇 통합 제어 시스템
 │   ├── integrated_simulation_launcher.py   # 구조 로봇 시뮬 전체 실행
 │   └── integrated_gui_control.py          # PyQt GUI 기반 구조 명령 제어
+```
 
 ## ⚙️ 실행 환경
 
