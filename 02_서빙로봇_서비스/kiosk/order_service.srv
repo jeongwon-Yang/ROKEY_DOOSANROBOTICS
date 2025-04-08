@@ -1,0 +1,6 @@
+string table_number  # 테이블 번호
+string menu_items    # 주문 메뉴 목록
+---
+bool success         # 성공 여부
+string message       # 추가 메시지
+
