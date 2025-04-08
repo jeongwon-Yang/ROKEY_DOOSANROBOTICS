@@ -1,0 +1,98 @@
+## Title : m0609_assemble_gear
+## Time : 2024-12-13 14:43:42
+
+
+def detecting():
+    global System_cnt
+    global System_init
+    global System_f1_grip
+    global System_f1_release
+    global System_f1_point1
+    global System_f1_point2
+    global System_f1_compliance_point
+    global System_f2_grip
+    global System_f2_point1
+    # SetNode
+    set_ref_coord(1)
+    # ComplianceNode
+    task_compliance_ctrl()
+    set_stiffnessx([200.00, 200.00, 200.00, 200.00, 200.00, 200.00],time=0.0)
+    # ForceNode
+    set_desired_force([0.00, 0.00, 20.00, 0.00, 0.00, 0.00],[0,0,1,0,0,0],time=0.0,mod=DR_FC_MOD_REL)
+    # RepeatNode
+    while True:
+        if check_force_condition(axis=DR_AXIS_Z, min=1):
+            move_periodic(amp=[0.00, 0.00, 0.00, 0.00, 0.00, 4.00], period=[0.00, 0.00, 0.00, 0.00, 0.00, 1.50], atime=0.20, repeat=4, ref=0)
+            break
+            
+        
+    
+def release():
+    global System_cnt
+    global System_init
+    global System_f1_grip
+    global System_f1_release
+    global System_f1_point1
+    global System_f1_point2
+    global System_f1_compliance_point
+    global System_f2_grip
+    global System_f2_point1
+    # SetNode
+    set_digital_output(1,OFF)
+    # SetNode
+    set_digital_output(2,ON)
+    # WaitNode
+    wait(0.30)
+    # WaitNode
+    wait_digital_input(2,ON)
+    
+def grip():
+    global System_cnt
+    global System_init
+    global System_f1_grip
+    global System_f1_release
+    global System_f1_point1
+    global System_f1_point2
+    global System_f1_compliance_point
+    global System_f2_grip
+    global System_f2_point1
+    # SetNode
+    set_digital_output(1,ON)
+    # SetNode
+    set_digital_output(2,OFF)
+    # WaitNode
+    wait(0.30)
+    # WaitNode
+    wait_digital_input(1,ON)
+    
+set_singular_handling(DR_AVOID)
+set_velj(60.0)
+set_accj(100.0)
+set_velx(250.0, 80.625)
+set_accx(1000.0, 322.5)
+gLoop144342997 = 0
+while gLoop144342997 < 1:
+    # MoveLNode
+    movel(System_init, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # MoveLNode
+    movel(System_f1_point1, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # CallNode
+    release()
+    # MoveLNode
+    movel(System_f1_grip, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # CallNode
+    grip()
+    # MoveLNode
+    movel(System_f1_point1, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # MoveLNode
+    movel(System_f1_point2, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # MoveLNode
+    movel(System_f1_compliance_point, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # CallNode
+    detecting()
+    # CallNode
+    release()
+    # MoveLNode
+    movel(System_f1_release, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    gLoop144342997 = gLoop144342997 + 1
+    break

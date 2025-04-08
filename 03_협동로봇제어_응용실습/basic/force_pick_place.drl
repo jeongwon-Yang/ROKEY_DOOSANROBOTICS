@@ -1,0 +1,82 @@
+## Title : m0609_task_20250202_1518422323
+## Time : 2025-02-02 16:18:39
+Global_home = posj(-0.01,-0.04,89.97,-0.01,90.01,-0.01)
+Global_Pick_pose = posx(446.93,-93.01,188.85,108.52,-172.32,105.59)
+Global_Place_pose = posx(448.60,106.27,189.88,97.03,-175.91,99.29)
+
+def force_check():
+    global System_cnt
+    global Global_home
+    global Global_Pick_pose
+    global Global_Place_pose
+    # ComplianceNode
+    task_compliance_ctrl()
+    set_stiffnessx([3000.00, 3000.00, 3000.00, 200.00, 200.00, 200.00],time=0.0)
+    # MoveLNode
+    amovel(posx(0.00, 0.00, -100.00, 0.00, 0.00, 0.00), vel=[20.00, 61.65], acc=[1000.00, 246.60], ref=0, mod=DR_MV_MOD_REL, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # RepeatNode
+    while True:
+        if check_force_condition(axis=DR_AXIS_Z, min=5, ref=DR_TOOL):
+            stop(DR_QSTOP)
+            break
+            
+        else:
+            wait(0.10)
+            
+        
+    # ComplianceNode
+    release_compliance_ctrl()
+    
+def pick():
+    global System_cnt
+    global Global_home
+    global Global_Pick_pose
+    global Global_Place_pose
+    # SetNode
+    set_digital_output(2,OFF)
+    # SetNode
+    set_digital_output(1,ON)
+    # WaitNode
+    wait(1.00)
+    
+def place():
+    global System_cnt
+    global Global_home
+    global Global_Pick_pose
+    global Global_Place_pose
+    # SetNode
+    set_digital_output(1,OFF)
+    # SetNode
+    set_digital_output(2,ON)
+    # WaitNode
+    wait(1.00)
+    
+set_singular_handling(DR_AVOID)
+set_velj(60.0)
+set_accj(100.0)
+set_velx(250.0, 80.625)
+set_accx(1000.0, 322.5)
+gLoop161839369 = 0
+while gLoop161839369 < 1:
+    # CallNode
+    place()
+    # MoveJNode
+    movej(Global_home, radius=0.00, ra=DR_MV_RA_DUPLICATE)
+    # MoveLNode
+    movel(Global_Pick_pose, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # CallNode
+    force_check()
+    # CallNode
+    pick()
+    # MoveLNode
+    movel(posx(0.00, 0.00, 100.00, 0.00, 0.00, 0.00), radius=0.00, ref=0, mod=DR_MV_MOD_REL, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # MoveLNode
+    movel(Global_Place_pose, radius=0.00, ref=0, mod=DR_MV_MOD_ABS, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    # CallNode
+    force_check()
+    # CallNode
+    place()
+    # MoveLNode
+    movel(posx(0.00, 0.00, 100.00, 0.00, 0.00, 0.00), radius=0.00, ref=0, mod=DR_MV_MOD_REL, ra=DR_MV_RA_DUPLICATE, app_type=DR_MV_APP_NONE)
+    gLoop161839369 = gLoop161839369 + 1
+    break
