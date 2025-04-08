@@ -1,0 +1,6 @@
+
+# Ignore model and image data
+*.pt
+model/
+*.jpg
+*.zip
